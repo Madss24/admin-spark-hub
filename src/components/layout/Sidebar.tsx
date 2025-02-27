@@ -1,13 +1,16 @@
 
 import { 
   LayoutDashboard, 
-  BookOpen, 
+  Music, 
   Calendar, 
   Users, 
-  User, 
+  UserCog, 
   Settings, 
   Menu,
-  ChevronLeft
+  ChevronLeft,
+  Mic2,
+  Piano,
+  Guitar
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { useSidebar } from "./SidebarProvider";
@@ -18,9 +21,9 @@ export default function Sidebar() {
 
   const menuItems = [
     { name: "Dashboard", path: "/", icon: <LayoutDashboard className="w-5 h-5" /> },
-    { name: "Courses", path: "/courses", icon: <BookOpen className="w-5 h-5" /> },
-    { name: "Scheduling", path: "/scheduling", icon: <Calendar className="w-5 h-5" /> },
-    { name: "Teachers", path: "/teachers", icon: <User className="w-5 h-5" /> },
+    { name: "Music Programs", path: "/courses", icon: <Music className="w-5 h-5" /> },
+    { name: "Lesson Schedule", path: "/scheduling", icon: <Calendar className="w-5 h-5" /> },
+    { name: "Instructors", path: "/teachers", icon: <Mic2 className="w-5 h-5" /> },
     { name: "Students", path: "/students", icon: <Users className="w-5 h-5" /> },
     { name: "Settings", path: "/settings", icon: <Settings className="w-5 h-5" /> }
   ];
@@ -36,7 +39,8 @@ export default function Sidebar() {
       <div className="flex h-14 items-center px-4 border-b border-sidebar-border">
         {!collapsed && (
           <div className="flex items-center gap-2">
-            <span className="font-semibold text-lg text-sidebar-foreground">SchoolSpark</span>
+            <Music className="h-5 w-5 text-primary" />
+            <span className="font-semibold text-lg text-sidebar-foreground">Harmony Academy</span>
           </div>
         )}
         <button
@@ -78,18 +82,32 @@ export default function Sidebar() {
         </ul>
       </nav>
 
+      <div className="mt-auto p-2">
+        <div className="rounded-md bg-primary/10 p-2 mb-2">
+          <div className="flex items-center gap-2">
+            <Piano className="h-4 w-4 text-primary flex-shrink-0" />
+            {!collapsed && (
+              <div className="text-xs overflow-hidden">
+                <p className="font-medium truncate">Now Playing:</p>
+                <p className="opacity-70 truncate">Student Recital - Piano Sonata</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
       <div className="p-4 border-t border-sidebar-border">
         <div className={cn(
           "flex items-center gap-2",
           collapsed && "justify-center"
         )}>
-          <div className="h-8 w-8 rounded-full bg-sidebar-accent flex items-center justify-center text-sidebar-accent-foreground">
-            <User className="h-4 w-4" />
+          <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground">
+            <UserCog className="h-4 w-4" />
           </div>
           {!collapsed && (
             <div className="flex flex-col">
-              <span className="text-sm font-medium">Admin User</span>
-              <span className="text-xs opacity-80">admin@school.com</span>
+              <span className="text-sm font-medium">Music Teacher</span>
+              <span className="text-xs opacity-80">teacher@harmony.edu</span>
             </div>
           )}
         </div>

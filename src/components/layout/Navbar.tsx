@@ -1,5 +1,5 @@
 
-import { Bell, Search, Menu, User } from "lucide-react";
+import { Search, Menu, User, Music, Headphones } from "lucide-react";
 import { useSidebar } from "./SidebarProvider";
 import { Button } from "@/components/ui/button";
 import {
@@ -25,13 +25,18 @@ export default function Navbar() {
         <span className="sr-only">Toggle Menu</span>
       </Button>
 
+      <div className="hidden md:flex items-center gap-2">
+        <Music className="h-5 w-5 music-icon" />
+        <span className="font-bold">Harmony Academy</span>
+      </div>
+
       <div className="w-full flex items-center gap-2 md:ml-auto md:gap-4">
         <form className="ml-auto flex-1 md:flex-initial">
           <div className="relative">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-primary-foreground/70" />
             <input
               type="search"
-              placeholder="Search..."
+              placeholder="Search lessons, teachers..."
               className="w-full rounded-md border border-primary-foreground/20 bg-primary-foreground/10 text-primary-foreground pl-8 pr-4 py-2 text-sm ring-offset-background placeholder:text-primary-foreground/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground/20 focus-visible:ring-offset-2"
             />
           </div>
@@ -42,8 +47,8 @@ export default function Navbar() {
           size="icon" 
           className="hover:bg-primary-foreground/10 text-primary-foreground"
         >
-          <Bell className="h-5 w-5" />
-          <span className="sr-only">Notifications</span>
+          <Headphones className="h-5 w-5" />
+          <span className="sr-only">Music Player</span>
         </Button>
 
         <DropdownMenu>
@@ -63,8 +68,8 @@ export default function Navbar() {
                 <User className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-sm font-medium">Admin User</p>
-                <p className="text-xs text-muted-foreground">admin@school.com</p>
+                <p className="text-sm font-medium">Music Teacher</p>
+                <p className="text-xs text-muted-foreground">teacher@harmony.edu</p>
               </div>
             </div>
             <DropdownMenuSeparator />

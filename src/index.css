@@ -6,81 +6,81 @@
 @layer base {
   :root {
     --background: 0 0% 98%;
-    --foreground: 222.2 47% 11.2%;
+    --foreground: 0 0% 10%;
 
-    --card: 220 14% 98%;
-    --card-foreground: 222.2 47% 11.2%;
+    --card: 0 0% 96%;
+    --card-foreground: 0 0% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 47% 11.2%;
+    --popover-foreground: 0 0% 10%;
 
     --primary: 24 100% 59%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 14.3% 95.9%;
-    --secondary-foreground: 222.2 47% 11.2%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 10%;
 
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 46.1%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
 
-    --accent: 220 14.3% 95.9%;
-    --accent-foreground: 222.2 47% 11.2%;
+    --accent: 24 100% 59%;
+    --accent-foreground: 0 0% 10%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
     --ring: 24 100% 59%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 215 14% 20%;
+    --sidebar-background: 0 0% 15%;
     --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 0 0% 100%;
-    --sidebar-primary-foreground: 215 14% 20%;
-    --sidebar-accent: 215 14% 30%;
+    --sidebar-primary-foreground: 0 0% 15%;
+    --sidebar-accent: 0 0% 22%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 215 14% 25%;
+    --sidebar-border: 0 0% 20%;
     --sidebar-ring: 0 0% 100%;
   }
 
   .dark {
-    --background: 222.2 47% 11.2%;
-    --foreground: 210 40% 98%;
+    --background: 0 0% 10%;
+    --foreground: 0 0% 98%;
 
-    --card: 222.2 47% 11.2%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 15%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 222.2 47% 11.2%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 15%;
+    --popover-foreground: 0 0% 98%;
 
     --primary: 24 100% 59%;
-    --primary-foreground: 210 40% 98%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 65%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 24 100% 59%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
     --ring: 24 100% 59%;
 
-    --sidebar-background: 215 14% 20%;
+    --sidebar-background: 0 0% 15%;
     --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 0 0% 100%;
-    --sidebar-primary-foreground: 215 14% 20%;
-    --sidebar-accent: 215 14% 30%;
+    --sidebar-primary-foreground: 0 0% 15%;
+    --sidebar-accent: 0 0% 22%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 215 14% 25%;
+    --sidebar-border: 0 0% 20%;
     --sidebar-ring: 0 0% 100%;
   }
 }
@@ -106,16 +106,17 @@
 
 .menu-item {
   @apply relative flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md
-    transition-colors hover:text-sidebar-accent-foreground;
+    transition-colors hover:text-primary;
 }
 
 .menu-item-active {
-  @apply bg-sidebar-accent text-sidebar-accent-foreground;
+  @apply bg-sidebar-accent text-primary;
 }
 
 .dashboard-card {
-  @apply p-6 rounded-xl border border-border/40 
-    bg-white/30 backdrop-blur-sm hover:shadow-sm transition-shadow duration-300;
+  @apply p-6 rounded-xl border border-border 
+    bg-white/30 backdrop-blur-sm hover:shadow-md transition-all duration-300
+    hover:translate-y-[-2px];
 }
 
 .glass-card {
@@ -131,7 +132,7 @@
 }
 
 .course-image-placeholder {
-  @apply bg-slate-200 rounded-md h-32 w-full mb-3 flex items-center justify-center;
+  @apply bg-secondary rounded-md h-32 w-full mb-3 flex items-center justify-center;
 }
 
 .form-container {
@@ -152,4 +153,27 @@
 
 .form-footer {
   @apply p-4 border-t flex justify-end gap-2 sticky bottom-0 bg-white z-10;
+}
+
+/* Music school specific styles */
+.music-icon {
+  @apply animate-pulse;
+}
+
+.music-card {
+  @apply relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-primary/20 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity;
+}
+
+.note-accent {
+  @apply before:content-['♪'] before:absolute before:opacity-5 before:text-8xl before:-bottom-4 before:-right-4 before:rotate-12;
+}
+
+.piano-keys {
+  background-image: repeating-linear-gradient(90deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 20px, transparent 20px, transparent 30px);
+  @apply relative overflow-hidden;
+}
+
+.groove-pattern {
+  background-image: radial-gradient(circle, rgba(0,0,0,0.05) 1px, transparent 1px);
+  background-size: 10px 10px;
 }

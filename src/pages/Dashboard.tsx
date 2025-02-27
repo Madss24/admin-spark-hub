@@ -1,353 +1,249 @@
 
-import { Users, User, BookOpen, Calendar, UserPlus, BookCheck, CalendarClock } from "lucide-react";
+import { BarChart, BookOpen, Clock, Users, Music2, Mic2, Piano, Guitar } from "lucide-react";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { ActivityItem } from "@/components/dashboard/ActivityItem";
 import { CardHeader } from "@/components/dashboard/CardHeader";
-import { Button } from "@/components/ui/button";
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  Legend,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-  LineChart,
-  Line,
-  AreaChart,
-  Area
-} from "recharts";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader as UICardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { BarChart as CustomBarChart } from "@/components/ui/chart";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 export default function Dashboard() {
-  // Sample data - would come from API in real app
-  const stats = [
-    { 
-      title: "Total Students", 
-      value: 512, 
-      icon: <Users className="h-5 w-5" />, 
-      trend: { value: 12, isPositive: true },
-      description: "Active enrollments" 
-    },
-    { 
-      title: "Total Teachers", 
-      value: 24, 
-      icon: <User className="h-5 w-5" />, 
-      trend: { value: 5, isPositive: true },
-      description: "Qualified staff" 
-    },
-    { 
-      title: "Total Courses", 
-      value: 16, 
-      icon: <BookOpen className="h-5 w-5" />, 
-      trend: { value: 2, isPositive: true },
-      description: "Active courses" 
-    },
-    { 
-      title: "Upcoming Schedule", 
-      value: "Math 101", 
-      icon: <Calendar className="h-5 w-5" />, 
-      description: "Today at 10:00 AM" 
-    }
+  // Mock data for course distribution by instrument
+  const courseData = [
+    { name: "Piano", value: 35 },
+    { name: "Guitar", value: 28 },
+    { name: "Violin", value: 15 },
+    { name: "Voice", value: 22 },
   ];
 
-  const recentActivities = [
-    { 
-      icon: <UserPlus className="h-4 w-4" />, 
-      title: "Ms. Johnson was onboarded as a new teacher", 
-      timestamp: "1 hour ago", 
-      description: "Science Department" 
-    },
-    { 
-      icon: <BookCheck className="h-4 w-4" />, 
-      title: "New student enrolled in Physics 101", 
-      timestamp: "3 hours ago", 
-      description: "Student ID: S12345" 
-    },
-    { 
-      icon: <CalendarClock className="h-4 w-4" />, 
-      title: "Chemistry 202 schedule updated", 
-      timestamp: "Yesterday", 
-      description: "Now on Tuesdays and Thursdays" 
-    },
-    { 
-      icon: <UserPlus className="h-4 w-4" />, 
-      title: "5 new students enrolled in Literature", 
-      timestamp: "2 days ago"
-    },
-    { 
-      icon: <UserPlus className="h-4 w-4" />, 
-      title: "Mr. Davis was onboarded as a new teacher", 
-      timestamp: "3 days ago", 
-      description: "Math Department" 
-    }
+  // Generate shades of orange for each bar
+  const orangeColors = [
+    "hsl(24, 100%, 59%)",  // Primary orange
+    "hsl(24, 100%, 65%)",  // Lighter orange
+    "hsl(24, 100%, 50%)",  // Darker orange
+    "hsl(24, 90%, 72%)",   // Soft orange
   ];
-
-  const upcomingSchedules = [
-    { 
-      title: "Math 101", 
-      time: "10:00 AM - 11:30 AM", 
-      teacher: "Mrs. Smith", 
-      location: "Room 204" 
-    },
-    { 
-      title: "Biology Lab", 
-      time: "1:00 PM - 2:30 PM", 
-      teacher: "Mr. Johnson", 
-      location: "Lab 3" 
-    },
-    { 
-      title: "History 201", 
-      time: "3:00 PM - 4:30 PM", 
-      teacher: "Ms. Davis", 
-      location: "Room 105" 
-    }
-  ];
-
-  // Chart data
-  const studentsByGradeData = [
-    { name: '9th Grade', students: 132 },
-    { name: '10th Grade', students: 156 },
-    { name: '11th Grade', students: 124 },
-    { name: '12th Grade', students: 100 },
-  ];
-
-  const studentsByCourseData = [
-    { name: 'Math', students: 85 },
-    { name: 'English', students: 78 },
-    { name: 'Science', students: 92 },
-    { name: 'History', students: 65 },
-    { name: 'Art', students: 42 },
-    { name: 'PE', students: 55 },
-    { name: 'CS', students: 45 },
-  ];
-
-  const attendanceData = [
-    { month: 'Jan', attendance: 92 },
-    { month: 'Feb', attendance: 94 },
-    { month: 'Mar', attendance: 91 },
-    { month: 'Apr', attendance: 89 },
-    { month: 'May', attendance: 95 },
-    { month: 'Jun', attendance: 88 },
-    { month: 'Jul', attendance: 0 }, // Summer break
-    { month: 'Aug', attendance: 90 },
-    { month: 'Sep', attendance: 93 },
-    { month: 'Oct', attendance: 92 },
-    { month: 'Nov', attendance: 90 },
-    { month: 'Dec', attendance: 87 },
-  ];
-
-  const coursesDistributionData = [
-    { name: 'Mathematics', value: 4 },
-    { name: 'Science', value: 3 },
-    { name: 'English', value: 3 },
-    { name: 'History', value: 2 },
-    { name: 'Arts', value: 2 },
-    { name: 'PE', value: 1 },
-    { name: 'CS', value: 1 },
-  ];
-
-  const COLORS = ['#FF8042', '#FF5733', '#FFC300', '#36A2EB', '#4BC0C0', '#9966FF', '#FF6384'];
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
         <p className="text-muted-foreground">
-          Welcome back to your school admin dashboard.
+          Welcome to Harmony Academy Music School Dashboard
         </p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat, index) => (
-          <StatCard
-            key={index}
-            title={stat.title}
-            value={stat.value}
-            icon={stat.icon}
-            description={stat.description}
-            trend={stat.trend}
-          />
-        ))}
+        <StatCard 
+          title="Total Students" 
+          value="342" 
+          icon={<Users className="h-5 w-5" />} 
+          description="Active students enrolled"
+          trend={{ value: 12, isPositive: true }}
+          className="note-accent"
+        />
+        <StatCard 
+          title="Music Courses" 
+          value="24" 
+          icon={<BookOpen className="h-5 w-5" />} 
+          description="Across all departments"
+          trend={{ value: 4, isPositive: true }}
+          className="note-accent"
+        />
+        <StatCard 
+          title="Practice Rooms" 
+          value="18" 
+          icon={<Music2 className="h-5 w-5" />} 
+          description="Available for bookings"
+          trend={{ value: 2, isPositive: true }}
+          className="note-accent"
+        />
+        <StatCard 
+          title="Weekly Lessons" 
+          value="156" 
+          icon={<Clock className="h-5 w-5" />} 
+          description="Scheduled this week"
+          trend={{ value: 8, isPositive: true }}
+          className="note-accent"
+        />
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        {/* Student grade distribution chart */}
-        <div className="dashboard-card">
-          <CardHeader
-            title="Students by Grade"
-            description="Distribution of students across grades"
-          />
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                width={500}
-                height={300}
-                data={studentsByGradeData}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="students" fill="#FF8042" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
+        <Card className="md:col-span-3 lg:col-span-4 music-card">
+          <UICardHeader>
+            <CardTitle>Students by Instrument</CardTitle>
+            <CardDescription>
+              Distribution of students across musical instruments
+            </CardDescription>
+          </UICardHeader>
+          <CardContent>
+            <CustomBarChart
+              data={courseData}
+              categories={["value"]}
+              index="name"
+              colors={orangeColors}
+              valueFormatter={(value) => `${value} students`}
+              className="aspect-[4/3]"
+            />
+          </CardContent>
+        </Card>
 
-        {/* Course distribution chart */}
-        <div className="dashboard-card">
-          <CardHeader
-            title="Course Distribution"
-            description="Number of courses by department"
-          />
-          <div className="h-64 flex items-center justify-center">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={coursesDistributionData}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="value"
-                >
-                  {coursesDistributionData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
+        <Card className="md:col-span-3 lg:col-span-3 piano-keys">
+          <UICardHeader>
+            <CardTitle>Recent Recitals</CardTitle>
+            <CardDescription>Latest student performances</CardDescription>
+          </UICardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Student</TableHead>
+                  <TableHead>Instrument</TableHead>
+                  <TableHead>Piece</TableHead>
+                  <TableHead className="text-right">Score</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell>Sarah Chen</TableCell>
+                  <TableCell>Piano</TableCell>
+                  <TableCell>Moonlight Sonata</TableCell>
+                  <TableCell className="text-right">95/100</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>David Kim</TableCell>
+                  <TableCell>Violin</TableCell>
+                  <TableCell>Four Seasons</TableCell>
+                  <TableCell className="text-right">92/100</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Emma Johnson</TableCell>
+                  <TableCell>Voice</TableCell>
+                  <TableCell>Ave Maria</TableCell>
+                  <TableCell className="text-right">98/100</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>James Wilson</TableCell>
+                  <TableCell>Guitar</TableCell>
+                  <TableCell>Classical Gas</TableCell>
+                  <TableCell className="text-right">90/100</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        {/* Attendance trend chart */}
-        <div className="dashboard-card">
-          <CardHeader
-            title="Attendance Trend"
-            description="Monthly attendance percentage"
-          />
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart
-                width={500}
-                height={300}
-                data={attendanceData}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis domain={[0, 100]} />
-                <Tooltip />
-                <Area type="monotone" dataKey="attendance" stroke="#FF8042" fill="#FF8042" fillOpacity={0.3} />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        {/* Students by course */}
-        <div className="dashboard-card">
-          <CardHeader
-            title="Students by Course Category"
-            description="Number of students enrolled by subject"
-          />
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                width={500}
-                height={300}
-                data={studentsByCourseData}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
-                }}
-                layout="vertical"
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" />
-                <YAxis dataKey="name" type="category" width={80} />
-                <Tooltip />
-                <Bar dataKey="students" fill="#FF5733" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      </div>
-
-      <div className="grid gap-6 md:grid-cols-2">
-        <div className="dashboard-card flex flex-col space-y-4">
-          <CardHeader
-            title="Recent Activities"
-            description="Latest actions in your school"
-            action={
-              <Button variant="ghost" size="sm" className="text-xs h-8">
-                View all
-              </Button>
-            }
-          />
-          <div className="space-y-1 -mx-3">
-            {recentActivities.map((activity, index) => (
-              <ActivityItem
-                key={index}
-                icon={activity.icon}
-                title={activity.title}
-                timestamp={activity.timestamp}
-                description={activity.description}
-              />
-            ))}
-          </div>
-        </div>
-
-        <div className="dashboard-card">
-          <CardHeader
-            title="Today's Schedule"
-            description="Upcoming classes for today"
-            action={
-              <Button variant="ghost" size="sm" className="text-xs h-8">
-                Full calendar
-              </Button>
-            }
-          />
-          <div className="space-y-4">
-            {upcomingSchedules.map((schedule, index) => (
-              <div 
-                key={index} 
-                className="flex items-start py-2 border-b last:border-0 border-border/50"
-              >
-                <div className="flex-1 min-w-0">
-                  <p className="font-medium text-sm">{schedule.title}</p>
-                  <p className="text-xs text-muted-foreground mt-1">{schedule.time}</p>
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
+        <Card className="md:col-span-3 lg:col-span-4 groove-pattern">
+          <UICardHeader>
+            <CardTitle>Upcoming Events</CardTitle>
+            <CardDescription>
+              School concerts and recitals
+            </CardDescription>
+          </UICardHeader>
+          <CardContent>
+            <div className="space-y-8">
+              <div className="flex items-start gap-4">
+                <div className="rounded-md bg-primary/10 p-2 text-primary">
+                  <Music2 className="h-5 w-5" />
                 </div>
-                <div className="text-right">
-                  <p className="text-sm">{schedule.teacher}</p>
-                  <p className="text-xs text-muted-foreground mt-1">{schedule.location}</p>
+                <div className="space-y-1">
+                  <p className="text-sm font-medium leading-none">
+                    Spring Recital Series
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    May 15th, 2024 • Main Hall
+                  </p>
+                  <p className="text-sm">
+                    All piano and string students will perform selections from classical and contemporary pieces.
+                  </p>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
+              <div className="flex items-start gap-4">
+                <div className="rounded-md bg-primary/10 p-2 text-primary">
+                  <Mic2 className="h-5 w-5" />
+                </div>
+                <div className="space-y-1">
+                  <p className="text-sm font-medium leading-none">
+                    Vocal Ensemble Concert
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    May 22nd, 2024 • Community Center
+                  </p>
+                  <p className="text-sm">
+                    Choral and solo performances featuring works from various musical traditions.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <div className="rounded-md bg-primary/10 p-2 text-primary">
+                  <Guitar className="h-5 w-5" />
+                </div>
+                <div className="space-y-1">
+                  <p className="text-sm font-medium leading-none">
+                    Guitar & Jazz Showcase
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    June 5th, 2024 • Black Box Theater
+                  </p>
+                  <p className="text-sm">
+                    Student ensembles and soloists performing contemporary and jazz selections.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="md:col-span-3 lg:col-span-3">
+          <CardHeader title="Recent Activities" />
+          <CardContent className="space-y-0">
+            <ActivityItem
+              icon={<Piano className="h-4 w-4" />}
+              title="New Piano Course Added"
+              timestamp="Just now"
+              description="Advanced Jazz Piano with Prof. Martinez"
+            />
+            <ActivityItem
+              icon={<Users className="h-4 w-4" />}
+              title="5 New Students Enrolled"
+              timestamp="2 hours ago"
+              description="In Beginning Guitar class"
+            />
+            <ActivityItem
+              icon={<BookOpen className="h-4 w-4" />}
+              title="Curriculum Updated"
+              timestamp="Yesterday"
+              description="Music Theory 101 course materials"
+            />
+            <ActivityItem
+              icon={<Music2 className="h-4 w-4" />}
+              title="Practice Room Renovations"
+              timestamp="2 days ago"
+              description="Rooms 3-5 now have new acoustic treatment"
+            />
+            <ActivityItem
+              icon={<Mic2 className="h-4 w-4" />}
+              title="Voice Faculty Meeting"
+              timestamp="3 days ago"
+              description="Summer workshop planning"
+            />
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

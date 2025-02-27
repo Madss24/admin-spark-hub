@@ -35,13 +35,13 @@
 
     --radius: 0.75rem;
 
-    --sidebar-background: 24 100% 59%;
+    --sidebar-background: 215 14% 20%;
     --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 0 0% 100%;
-    --sidebar-primary-foreground: 24 100% 59%;
-    --sidebar-accent: 24 100% 94%;
-    --sidebar-accent-foreground: 24 100% 30%;
-    --sidebar-border: 24 100% 54%;
+    --sidebar-primary-foreground: 215 14% 20%;
+    --sidebar-accent: 215 14% 30%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 215 14% 25%;
     --sidebar-ring: 0 0% 100%;
   }
 
@@ -74,13 +74,13 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 24 100% 59%;
 
-    --sidebar-background: 24 100% 59%;
+    --sidebar-background: 215 14% 20%;
     --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 0 0% 100%;
-    --sidebar-primary-foreground: 24 100% 59%;
-    --sidebar-accent: 24 100% 30%;
+    --sidebar-primary-foreground: 215 14% 20%;
+    --sidebar-accent: 215 14% 30%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 24 100% 54%;
+    --sidebar-border: 215 14% 25%;
     --sidebar-ring: 0 0% 100%;
   }
 }
@@ -115,11 +115,11 @@
 
 .dashboard-card {
   @apply p-6 rounded-xl border border-border/40 
-    bg-card bg-opacity-90 backdrop-blur-sm hover:shadow-sm transition-shadow duration-300;
+    bg-white/30 backdrop-blur-sm hover:shadow-sm transition-shadow duration-300;
 }
 
 .glass-card {
-  @apply bg-card/70 dark:bg-gray-800/70 backdrop-blur-sm;
+  @apply bg-white/30 dark:bg-gray-800/30 backdrop-blur-sm;
 }
 
 .activity-item {

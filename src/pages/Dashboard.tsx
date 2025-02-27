@@ -4,6 +4,23 @@ import { StatCard } from "@/components/dashboard/StatCard";
 import { ActivityItem } from "@/components/dashboard/ActivityItem";
 import { CardHeader } from "@/components/dashboard/CardHeader";
 import { Button } from "@/components/ui/button";
+import { 
+  BarChart, 
+  Bar, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  Legend,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  LineChart,
+  Line,
+  AreaChart,
+  Area
+} from "recharts";
 
 export default function Dashboard() {
   // Sample data - would come from API in real app
@@ -90,6 +107,51 @@ export default function Dashboard() {
     }
   ];
 
+  // Chart data
+  const studentsByGradeData = [
+    { name: '9th Grade', students: 132 },
+    { name: '10th Grade', students: 156 },
+    { name: '11th Grade', students: 124 },
+    { name: '12th Grade', students: 100 },
+  ];
+
+  const studentsByCourseData = [
+    { name: 'Math', students: 85 },
+    { name: 'English', students: 78 },
+    { name: 'Science', students: 92 },
+    { name: 'History', students: 65 },
+    { name: 'Art', students: 42 },
+    { name: 'PE', students: 55 },
+    { name: 'CS', students: 45 },
+  ];
+
+  const attendanceData = [
+    { month: 'Jan', attendance: 92 },
+    { month: 'Feb', attendance: 94 },
+    { month: 'Mar', attendance: 91 },
+    { month: 'Apr', attendance: 89 },
+    { month: 'May', attendance: 95 },
+    { month: 'Jun', attendance: 88 },
+    { month: 'Jul', attendance: 0 }, // Summer break
+    { month: 'Aug', attendance: 90 },
+    { month: 'Sep', attendance: 93 },
+    { month: 'Oct', attendance: 92 },
+    { month: 'Nov', attendance: 90 },
+    { month: 'Dec', attendance: 87 },
+  ];
+
+  const coursesDistributionData = [
+    { name: 'Mathematics', value: 4 },
+    { name: 'Science', value: 3 },
+    { name: 'English', value: 3 },
+    { name: 'History', value: 2 },
+    { name: 'Arts', value: 2 },
+    { name: 'PE', value: 1 },
+    { name: 'CS', value: 1 },
+  ];
+
+  const COLORS = ['#FF8042', '#FF5733', '#FFC300', '#36A2EB', '#4BC0C0', '#9966FF', '#FF6384'];
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-2">
@@ -110,6 +172,128 @@ export default function Dashboard() {
             trend={stat.trend}
           />
         ))}
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2">
+        {/* Student grade distribution chart */}
+        <div className="dashboard-card">
+          <CardHeader
+            title="Students by Grade"
+            description="Distribution of students across grades"
+          />
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                width={500}
+                height={300}
+                data={studentsByGradeData}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="students" fill="#FF8042" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Course distribution chart */}
+        <div className="dashboard-card">
+          <CardHeader
+            title="Course Distribution"
+            description="Number of courses by department"
+          />
+          <div className="h-64 flex items-center justify-center">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={coursesDistributionData}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                  outerRadius={80}
+                  fill="#8884d8"
+                  dataKey="value"
+                >
+                  {coursesDistributionData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2">
+        {/* Attendance trend chart */}
+        <div className="dashboard-card">
+          <CardHeader
+            title="Attendance Trend"
+            description="Monthly attendance percentage"
+          />
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart
+                width={500}
+                height={300}
+                data={attendanceData}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis domain={[0, 100]} />
+                <Tooltip />
+                <Area type="monotone" dataKey="attendance" stroke="#FF8042" fill="#FF8042" fillOpacity={0.3} />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Students by course */}
+        <div className="dashboard-card">
+          <CardHeader
+            title="Students by Course Category"
+            description="Number of students enrolled by subject"
+          />
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                width={500}
+                height={300}
+                data={studentsByCourseData}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+                layout="vertical"
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis type="number" />
+                <YAxis dataKey="name" type="category" width={80} />
+                <Tooltip />
+                <Bar dataKey="students" fill="#FF5733" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">

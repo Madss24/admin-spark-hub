@@ -1,11 +1,17 @@
 
-import { User, Plus, Search, Mail, Phone } from "lucide-react";
+import { User, Plus, Search, Mail, Phone, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useState } from "react";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function Teachers() {
+  const [showAddTeacherForm, setShowAddTeacherForm] = useState(false);
+  const { toast } = useToast();
+  
   // Sample teacher data
-  const teachers = [
+  const [teachers, setTeachers] = useState([
     { 
       id: 1, 
       name: "Mrs. Smith", 
@@ -51,7 +57,56 @@ export default function Teachers() {
       courses: 1,
       joinedDate: "Feb 2023"
     },
-  ];
+  ]);
+
+  const [newTeacher, setNewTeacher] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    department: ""
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewTeacher(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleAddTeacher = () => {
+    // Validate the form
+    if (!newTeacher.name || !newTeacher.email || !newTeacher.department) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill all required fields.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Add new teacher
+    const now = new Date();
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    
+    const newTeacherWithId = {
+      ...newTeacher,
+      id: teachers.length + 1,
+      courses: 0,
+      joinedDate: `${months[now.getMonth()]} ${now.getFullYear()}`
+    };
+
+    setTeachers([...teachers, newTeacherWithId]);
+    setNewTeacher({
+      name: "",
+      email: "",
+      phone: "",
+      department: ""
+    });
+    setShowAddTeacherForm(false);
+    
+    toast({
+      title: "Teacher Onboarded",
+      description: `${newTeacher.name} has been successfully added.`
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -62,7 +117,7 @@ export default function Teachers() {
             Manage teacher profiles and assignments
           </p>
         </div>
-        <Button className="flex items-center gap-1">
+        <Button className="flex items-center gap-1" onClick={() => setShowAddTeacherForm(true)}>
           <Plus className="h-4 w-4" />
           <span>Onboard Teacher</span>
         </Button>
@@ -127,6 +182,90 @@ export default function Teachers() {
           ))}
         </div>
       </div>
+
+      {/* Add Teacher Form Modal */}
+      {showAddTeacherForm && (
+        <div className="form-container">
+          <div className="form-content animate-enter">
+            <div className="form-header">
+              <h3 className="font-semibold">Onboard New Teacher</h3>
+              <Button 
+                variant="ghost" 
+                size="icon"
+                onClick={() => setShowAddTeacherForm(false)}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+            <div className="form-body">
+              <div className="space-y-2">
+                <Label htmlFor="name">Full Name</Label>
+                <Input 
+                  id="name" 
+                  name="name" 
+                  value={newTeacher.name} 
+                  onChange={handleInputChange} 
+                  placeholder="e.g., Jane Smith"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="email">Email Address</Label>
+                <Input 
+                  id="email" 
+                  name="email" 
+                  type="email"
+                  value={newTeacher.email} 
+                  onChange={handleInputChange} 
+                  placeholder="e.g., jane.smith@school.edu"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="phone">Phone Number</Label>
+                <Input 
+                  id="phone" 
+                  name="phone" 
+                  value={newTeacher.phone} 
+                  onChange={handleInputChange} 
+                  placeholder="e.g., (555) 123-4567"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="department">Department</Label>
+                <select 
+                  id="department" 
+                  name="department" 
+                  value={newTeacher.department} 
+                  onChange={handleInputChange}
+                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                  required
+                >
+                  <option value="">Select a department</option>
+                  <option value="Mathematics">Mathematics</option>
+                  <option value="Science">Science</option>
+                  <option value="English">English</option>
+                  <option value="History">History</option>
+                  <option value="Arts">Arts</option>
+                  <option value="Physical Education">Physical Education</option>
+                  <option value="Computer Science">Computer Science</option>
+                </select>
+              </div>
+            </div>
+            <div className="form-footer">
+              <Button 
+                variant="outline" 
+                onClick={() => setShowAddTeacherForm(false)}
+              >
+                Cancel
+              </Button>
+              <Button onClick={handleAddTeacher}>
+                Add Teacher
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

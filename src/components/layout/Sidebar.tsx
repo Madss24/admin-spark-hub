@@ -28,21 +28,21 @@ export default function Sidebar() {
   return (
     <aside
       className={cn(
-        "fixed left-0 top-0 z-30 flex h-screen flex-col border-r border-border bg-sidebar",
-        "bg-sidebar transition-all duration-300 ease-in-out",
+        "fixed left-0 top-0 z-30 flex h-screen flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground",
+        "transition-all duration-300 ease-in-out",
         collapsed ? "w-16" : "w-64"
       )}
     >
-      <div className="flex h-14 items-center px-4 border-b border-border">
+      <div className="flex h-14 items-center px-4 border-b border-sidebar-border">
         {!collapsed && (
           <div className="flex items-center gap-2">
-            <span className="font-semibold text-lg">SchoolSpark</span>
+            <span className="font-semibold text-lg text-sidebar-foreground">SchoolSpark</span>
           </div>
         )}
         <button
           onClick={toggleSidebar}
           className={cn(
-            "rounded-md p-2 hover:bg-sidebar-accent transition-colors",
+            "rounded-md p-2 hover:bg-sidebar-accent text-sidebar-foreground transition-colors",
             collapsed ? "mx-auto" : "ml-auto"
           )}
           aria-label={collapsed ? "Expand Sidebar" : "Collapse Sidebar"}
@@ -63,7 +63,7 @@ export default function Sidebar() {
                 to={item.path}
                 className={({ isActive }) => 
                   cn(
-                    "menu-item", 
+                    "menu-item text-sidebar-foreground", 
                     isActive && "menu-item-active",
                     collapsed && "justify-center px-2"
                   )
@@ -78,18 +78,18 @@ export default function Sidebar() {
         </ul>
       </nav>
 
-      <div className="p-4 border-t border-border">
+      <div className="p-4 border-t border-sidebar-border">
         <div className={cn(
           "flex items-center gap-2",
           collapsed && "justify-center"
         )}>
-          <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center">
+          <div className="h-8 w-8 rounded-full bg-sidebar-accent flex items-center justify-center text-sidebar-accent-foreground">
             <User className="h-4 w-4" />
           </div>
           {!collapsed && (
             <div className="flex flex-col">
               <span className="text-sm font-medium">Admin User</span>
-              <span className="text-xs text-muted-foreground">admin@school.com</span>
+              <span className="text-xs opacity-80">admin@school.com</span>
             </div>
           )}
         </div>
